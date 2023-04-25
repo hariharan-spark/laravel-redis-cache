@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Blog;
+use App\Models\Post;
 use Illuminate\Support\Facades\Redis;
 
 use Illuminate\Http\Request;
@@ -13,6 +14,7 @@ class BlogController extends Controller
 
 public function index($id) {
 
+//  redis method referral link https://www.thegeekstuff.com/2014/02/phpredis/
 
 $cachedBlog = Redis::get('blog_' . $id);
 
@@ -92,4 +94,17 @@ public function update(Request $request, $id) {
         'message' => 'Blog deleted'
     ]);
   }
+
+
+      /**
+     * Write code on Method
+     *
+     * @return response()
+     */
+    public function post()
+    {
+        $posts = Post::latest()->take(5)->get();
+
+        return view('posts', compact('posts'));
+    }
 }
